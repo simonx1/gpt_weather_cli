@@ -1,0 +1,77 @@
+Core classes, functions, and methods:
+
+1. `openai_client.rb`: Contains the OpenAIClient class which handles communication with the OpenAI API.
+   - `initialize`: Initializes the OpenAIClient with the API key.
+   - `chat`: Sends a message to the OpenAI API and returns the response.
+
+2. `openai_cli.rb`: Contains the OpenAICLI class which inherits from Thor and defines the command line interface.
+   - `initialize`: Initializes the OpenAICLI with an instance of OpenAIClient.
+   - `ask`: The Thor command that takes a user prompt and displays the response from the OpenAI API.
+
+3. `main.rb`: The entry point of the application that sets up the OpenAICLI and starts the command line interface.
+
+Now, let's create the content of each file.
+
+openai_client.rb
+```ruby
+require 'openai'
+
+class OpenAIClient
+  def initialize(api_key)
+    @api_key = api_key
+    OpenAI.api_key = @api_key
+  end
+
+  def chat(prompt)
+    response = OpenAI::ChatCompletion.create(
+      model: "text-davinci-002",
+      messages: [
+        {role: "system", content: "You are a helpful assistant."},
+        {role: "user", content: prompt}
+      ],
+      options: {use_cache: true}
+    )
+    response.choices.first.text.strip
+  end
+end
+```
+
+openai_cli.rb
+```ruby
+require 'thor'
+require_relative 'openai_client'
+
+class OpenAICLI < Thor
+  def initialize(*args)
+    super
+    api_key = ENV['OPENAI_API_KEY']
+    @client = OpenAIClient.new(api_key)
+  end
+
+  desc "ask PROMPT", "Ask a question to the OpenAI API"
+  def ask(prompt)
+    begin
+      response = @client.chat(prompt)
+      puts "\e[33m#{response}\e[0m"
+    rescue StandardError => e
+      puts "\e[31mError: #{e.message}\e[0m"
+    end
+  end
+end
+```
+
+main.rb
+```ruby
+require_relative 'openai_cli'
+
+cli = OpenAICLI.new
+cli.start(ARGV)
+```
+
+To run the application, execute the following command:
+
+```bash
+ruby main.rb ask "What is the capital of France?"
+```
+
+Make sure to install the required gems and set the `OPENAI_API_KEY` environment variable before running the application.

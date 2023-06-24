@@ -1,0 +1,44 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (7.0.5)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 1.6, < 2)
+      minitest (>= 5.1)
+      tzinfo (~> 2.0)
+    concurrent-ruby (1.2.2)
+    faraday (1.2.0)
+      multipart-post (>= 1.2, < 3)
+      ruby2_keywords
+    faraday-multipart (1.0.4)
+      multipart-post (~> 2)
+    faraday_middleware (1.2.0)
+      faraday (~> 1.0)
+    hashie (5.0.0)
+    i18n (1.14.1)
+      concurrent-ruby (~> 1.0)
+    minitest (5.18.1)
+    multipart-post (2.3.0)
+    open-weather-ruby-client (0.3.0)
+      activesupport
+      faraday (>= 1.0.0)
+      faraday_middleware
+      hashie
+    ruby-openai (4.2.0)
+      faraday (>= 1)
+      faraday-multipart (>= 1)
+    ruby2_keywords (0.0.5)
+    thor (1.2.2)
+    tzinfo (2.0.6)
+      concurrent-ruby (~> 1.0)
+
+PLATFORMS
+  arm64-darwin-22
+
+DEPENDENCIES
+  open-weather-ruby-client
+  ruby-openai
+  thor
+
+BUNDLED WITH
+   2.4.10
